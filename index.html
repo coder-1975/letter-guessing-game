@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <title>GUESSING</title>
+
+  <style>
+    #stylishcontainer {
+      position: fixed;
+      top: 20px;
+      left: 40%;
+      box-shadow: none !important;
+      border-radius: 50% !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: 10px solid black;
+
+      #stylishbtn {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 15px;
+        color: transparent !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+        border: 20px solid lightgrey;
+        border-radius: 50% !important;
+      }
+
+      #stylishbtn:hover {
+        cursor: pointer;
+      }
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="dark.css" id="stylishlink" />
+  <script>
+    let s = document.getElementById("stylishlink");
+    console.log('style: ' + s.href);
+  </script>
+</head>
+
+<body id="gameboard">
+  <div id="result">
+    <div class="winners" id="winners">
+      <div id="msg"></div>
+      <div id="winning_player"></div>
+      <div id="rightanswer"></div>
+      <div id="winning_score"></div>
+    </div>
+  </div>
+
+  <div id="settings">
+    <div id="information" class="info">
+      <div id="settings_title">
+        <span id="master"><span ><img id="log"/></span> GUESSING GAME</span>
+        <br />
+        <marquee><span id="creatorofapp">BY IBRAHIM HASSAN 2024 </span></marquee>
+      </div>
+      <input type="text" id="playername" value="" placeholder="Player Name ...">
+      <input type="text" id="backname" value="" placeholder="background ...">
+      <input type="text" id="soundname" value="" placeholder="music ...">
+      <input type="button" id="settings_btn" value="PLAY">
+    </div>
+  </div>
+
+  <div id="gamecontainer">
+    <div class="board" id="board">
+      <div class="player d-flex direction-row" id="player">
+        <div class="name">
+          player
+          <span id="name"></span>
+        </div>
+        <div class="lives">
+          lives
+          <span id="live"></span>
+        </div>
+        <div class="score">
+          score
+          <span id="score"></span>
+        </div>
+      </div>
+    </div>
+    <div class="lettermistakes" id="lettermistakes">
+      mistakes <span id="mistakes"></span>
+    </div>
+    <div class="pizzle word" id="word">
+      <span id="converffromdash"></span>
+    </div>
+    <div class="inputs" id="inputs">
+      <select type="text" name="letter" id="letter" autofocus>
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
+        <option value="e">e</option>
+        <option value="f">f</option>
+        <option value="g">g</option>
+        <option value="h">h</option>
+        <option value="i">i</option>
+        <option value="j">j</option>
+        <option value="k">k</option>
+        <option value="l">l</option>
+        <option value="m">m</option>
+        <option value="n">n</option>
+        <option value="o">o</option>
+        <option value="p">p</option>
+        <option value="q">q</option>
+        <option value="r">r</option>
+        <option value="s">s</option>
+        <option value="t">t</option>
+        <option value="u">u</option>
+        <option value="v">v</option>
+        <option value="w">w</option>
+        <option value="x">x</option>
+        <option value="y">y</option>
+        <option value="z">z</option>
+      </select>
+      <button id="guess" class="backo facko" onclick="">guess</button>
+    </div>
+  </div>
+
+  <div id="sounderbox">
+    <video id="sounder" controls autoplay name="media">
+      <source type="audio/mpeg">
+    </video>
+    <button id="sndbtn">hide</button>
+  </div>
+  <div id='stylishcontainer'>
+    <button id='stylishbtn'>light</button>
+  </div>
+  <script>
+    const stylebtn = document.getElementById('stylishbtn'),
+      stylecont = document.getElementById('stylishcontainer'),
+      stylelk = document.getElementById('stylishlink');
+    let status = 'smart';
+
+    stylebtn.onclick = () => {
+      if (status === 'light') {
+        stylebtn.innerHTML = 'dark';
+        stylebtn.style.border = '20px solid #123';
+        stylecont.style.border = '10px solid lightgrey';
+        stylelk.href = 'light.css';
+        status = 'dark';
+        stylebtn.style.color='black';
+        console.log('style: ' + s.href);
+      } else if (status === 'dark') {
+        stylebtn.innerHTML = 'light';
+        stylebtn.style.border = '20px solid lightgrey';
+        stylecont.style.border = '10px solid #111';
+        stylelk.href = 'dark.css';
+        status = 'smart';
+        stylebtn.style.color='white';
+        console.log('style: ' + s.href);
+      } else if (status === 'smart') {
+        stylebtn.innerHTML = 'light';
+        stylebtn.style.border = '20px solid lightgrey';
+        stylecont.style.border = '10px solid #111';
+        stylelk.href = 'smart.css';
+        status = 'light';
+        stylebtn.style.color='red';
+        console.log('style: ' + s.href);
+      }
+    }
+    let wordbox = document.getElementById('word');
+    let rightanswer = document.getElementById('rightanswer');
+    let winners = document.getElementById("winners");
+    let msg = document.getElementById("msg");
+    let winnersplayer = document.getElementById("winning_player");
+    let winning_score = document.getElementById("winning_score");
+    let hearts = 2;
+    let sounderbox = document.getElementById("sounderbox");
+    let sounder = document.getElementById("sounder");
+    let settings_btn = document.getElementById('settings_btn');
+    let playerbox = document.getElementById('playername');
+    let backbox = document.getElementById('backname');
+    let soundbox = document.getElementById('soundname');
+    // btn to hide the sounder
+    document.getElementById("sndbtn").onclick = () => {
+      document.getElementById("sndbtn").parentElement.style.visibility = 'hidden';
+      //document.getElementById("sounder").style.visibility = 'hidden';
+    }
+    // click setting btn to out of settings and start game
+    document.getElementById("settings_btn")
+      .addEventListener('click', () => {
+        document.getElementById("settings").style.display = "none";
+        document.getElementById("gamecontainer").style.display = "flex";
+        // startgame()  run start game function
+
+        //here please
+        game(playerbox.value, backbox.value, soundbox.value, hearts);
+        /////////////////////////////////////////
+      })
+    // change style for guess btn when clicked to choose letter
+    guessbtn = document.getElementById("guess");
+    guessbtn.addEventListener("mousedown", () => {
+      guessbtn.classList.add("backo");
+      guessbtn.classList.remove("facko");
+    })
+    guessbtn.addEventListener("mouseout", () => {
+      guessbtn.classList.add("facko");
+      guessbtn.classList.remove("backo");
+    })
+    //////////////////////////////////////////////////////////////
+
+    function game(player, back, sound, hearts) {
+      let result = '';
+      let gameboard = document.getElementById('gameboard');
+      let differenceinmistakes = 0;
+      let scorebox = document.getElementById('score');
+      let live = document.getElementById('live');
+
+      let nofmistakes = 0;
+      let nofcorrectness = 0;
+      let notin = [];
+      let mistakes = document.getElementById('mistakes');
+      let isin = [];
+      // SET PLAYER NAME ----------------------------------
+      let name = '';
+      if (player !== '') {
+        name = player;
+      } else {
+        name = 'player';
+      }
+
+      const namebox = document.getElementById('name');
+      namebox.innerHTML = name;
+      // ----------------------------------------------------
+      // SET BACKGROUND IMAGES ----------------------------------
+      let backforgame = back;
+      if (backforgame === 'back1') {
+        gameboard.style.backgroundImage = "url('back1.png')";
+      } else if (backforgame === 'back2') {
+        gameboard.style.backgroundImage = "url('back2.jpg')";
+      } else if (backforgame === 'back3') {
+        gameboard.style.backgroundImage = "url('back3.jpg')";
+      }else if (backforgame === 'back4') {
+        gameboard.style.backgroundImage = "url('back4.jpg')";
+      } else {
+        gameboard.style.backgroundImage = "none";
+      }
+      // --------------------------------------------------------
+      // SET BACKGROUNG SOUND ----------------------------------
+      let soundforgame = sound;
+      if (soundforgame === 'guess') {
+        sounder.src = "guess.mp3";
+        sounderbox.style.display = 'flex';
+      } else if (soundforgame === 'reflect') {
+        sounder.src = "reflect.mp3";
+        sounderbox.style.display = 'flex';
+      } else if (soundforgame === 'night') {
+        sounder.src = "night.mp3";
+        sounderbox.style.display = 'flex';
+      } else {
+        sounder.src = "";
+        sounderbox.style.display = 'none';
+      }
+      // -------------------------------------------------
+
+      // dictionary of words to play with
+      let dic = [
+        'retal',
+        'jody',
+        'seddra',
+        'muhammed',
+        'heba',
+        'sama',
+        'sara',
+        'budy',
+        'ibrahim',
+        'malak',
+        'sherif',
+        'walaa',
+        'dina',
+        'fatima',
+        'sawsan',
+        'soheer',
+        'salwa',
+        'solly',
+        'ahmed',
+        'marium',
+        'hamza',
+        'nagah',
+        'khalid',
+        'mamdouh',
+        'amal',
+        'mahfouz',
+        'salman'];
+      //get the length of the dictionary array
+      let len = dic.length;
+      //get random number from 0 to the length of the dictionary
+      rand = Math.floor(Math.random() * (len));
+      //set lives equal to the leng the word
+      console.log(dic[rand]);
+      //get from dictionary names random name like 'sama' ,'sara', 'budy'
+      let word = dic[rand];
+      // convert the word string to array of  letter characters ['s','a','m','a']
+      word = Object.assign([], word);
+      //set lives equal to the leng the word
+      let lives = hearts;
+      lives = word.length;
+      // start while loop
+      // GET THE NUMBER OF LETTERS IN EACH WORD
+      let wordlen = word.length;
+      let dashwithdashesleft = 0;
+      let nofword = word.length;
+      // SET THE SCORE ------------------
+      let score = 0;
+      let finalscore = 0;
+      scorebox.innerHTML = score;
+      // -------------------------------
+      console.log('lives: ', lives);
+      // SHOW THE LIVES AVAILABLE
+      live.innerHTML = lives;
+      // SET THE EQUALIVENT DASHES TO THE WORD -----------------
+      let dash = [];
+      word.forEach((item, index) => {
+        dash.push('-')
+      })
+      // -------------------------------------------------------
+      let nofdashes = dash.length;
+      let lettergenerator = document.getElementById('letter');
+      let guess = '';
+      // get duplicated items
+      function letters(word) {
+        let template = word.map((letter, i) => `<span>${letter}</span>`).join(' ');
+        document.querySelector('#converffromdash').innerHTML = template;
+      }
+      letters(dash)
+      let btno = document.querySelector('button');
+      let idx = [];
+      lettergenerator.addEventListener('change', (e) => { })
+      btno.addEventListener('click', () => {
+        let v = lettergenerator.value;
+        console.log("value of guessing: ", v);
+        if (word.includes(v)) {
+          isin.push(v);
+          console.log('correct isin: ', isin);
+          nofcorrectness += 1;
+          nofdashes -= 1;
+          console.log('correctness : ', nofcorrectness);
+          lives = lives + nofcorrectness;
+          live.innerHTML = lives;
+          score = score + (lives * wordlen);
+        } else {
+          notin.push(v);
+          console.log('wrong notin: ', notin);
+          mistakes.innerHTML = notin.join(' ');
+          nofmistakes += 1;
+          lives = lives - nofmistakes;
+          live.innerHTML = lives;
+          console.log('mistakes : ', nofmistakes);
+        }
+        document.querySelector('#converffromdash').innerHTML = "";
+        word.forEach((letter, index) => {
+          let c = lettergenerator.value;
+          guess = c;
+          console.log('guess: ', guess);
+
+          if (letter === c) {
+            idx.push(index);
+            idx.forEach((i, index) => {
+              if (letter === word[i]) {
+                console.log(i);
+                dash[i] = lettergenerator.value;
+                letters(dash);
+              } else {
+                letters(dash);
+              }
+            })
+          } else {
+            letters(dash);
+          }
+        })
+        console.log(idx);
+        removetakenletter();
+        if (dash.includes('-')) {
+          if (lives <= 0) {
+            result = 'LOSER';
+            if (result === 'LOSER') {
+              score = 0;
+            }
+            console.log("loser ")
+            document.getElementById('result').style.display = 'flex';
+            document.getElementById('gamecontainer').style.display = 'none';
+            document.getElementById('settings').style.display = 'none';
+            document.getElementById('sounderbox').style.visibility = 'hidden';
+
+            setTimeout(() => {
+              winners.style.display = 'flex';
+              msg.innerHTML = result;
+            }, 2000)
+            setTimeout(() => {
+              winnersplayer.innerHTML = '<span>PLAYER</span><span>' + name + '</span>';
+            }, 3000)
+            setTimeout(() => {
+              rightanswer.innerHTML = '<span>WORD</span><span>' + word.join('') + '</span>';
+            }, 5000)
+            setTimeout(() => {
+              winning_score.innerHTML = '<span>SCORE</span><span>' + score + '</span>';
+            }, 7000)
+            setTimeout(() => {
+              window.location.reload();
+            }, 25000)
+          }
+        } else {
+          result = 'WINNER';
+          if (result === 'WINNER') {
+            score = score;
+          }
+          console.log("winner ")
+          document.getElementById('result').style.display = 'flex';
+          document.getElementById('gamecontainer').style.display = 'none';
+          document.getElementById('settings').style.display = 'none';
+          document.getElementById('sounderbox').style.visibility = 'hidden';
+
+          setTimeout(() => {
+            winners.style.display = 'flex';
+            msg.innerHTML = result;
+          }, 2000)
+          setTimeout(() => {
+            winnersplayer.innerHTML = '<span>PLAYER</span><span>' + name + '</span>';
+          }, 3000)
+          setTimeout(() => {
+            rightanswer.innerHTML = '<span>WORD</span><span>' + word.join('') + '</span>';
+          }, 5000)
+          setTimeout(() => {
+            winning_score.innerHTML = '<span>SCORE</span><span>' + score + '</span>';
+          }, 7000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 25000)
+        }
+
+        if (wordlen - nofcorrectness === 0) {
+          score = score * nofcorrectness;
+          console.log('score: ', score);
+        } else if ((wordlen - nofcorrectness) <= 1) {
+          score = score * nofcorrectness;
+          console.log('score: ', score);
+        } else if ((wordlen - nofcorrectness) <= 2) {
+          score = score * nofcorrectness;
+          console.log('score: ', score);
+        } else if ((wordlen - nofcorrectness) <= 3) {
+          score = score * nofcorrectness;
+          console.log('score: ', score);
+        } else if ((nofmistakes - wordlen) == 0) {
+          score = score / nofmistakes;
+          console.log('score: ', score);
+        } else {
+          console.log('score: ', score);
+        }
+        scorebox.innerHTML = score;
+      });
+    }
+    // remove the letter which will be taken or guessed with
+    function removetakenletter() {
+      var x = document.getElementById("letter");
+      x.remove(x.selectedIndex);
+    }
+
+  </script>
+
+</body>
+
+</html>
